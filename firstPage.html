@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Click It</button>
+
+<p id="demo"></p>
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  // x.innerHTML = "Latitude: " + position.coords.latitude + 
+  // "<br>Longitude: " + position.coords.longitude;
+ 
+var d;
+let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&sensor=true&key=AIzaSyDHOgQoqKBF4sLEzYXXPvsOCemkIeePQR4`
+fetch(url).then(data => data.json()).then(d =>{
+console.log(d)
+var allData1 =d.results
+console.log(allData1)
+
+var len=allData1.length;
+var txt = "<h2>";
+for(var a=len-1;a>=len-3;a--)
+{
+   
+     var data = allData1[a];
+     console.log('data',data)
+     txt+=  data.formatted_address +"&nbsp"
+    // document.body.innerHTML +=  data.formatted_address +"&nbsp"
+    
+}
+txt +="</h2>"; 
+document.body.innerHTML = txt; 
+
+})
+
+
+}
+
+    
+</script>
+
+</body>
+</html>
